@@ -7,6 +7,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import useMovies from './hook';
 import Movie from '../Movie';
+import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Movies = () => {
 
@@ -22,7 +24,7 @@ const Movies = () => {
         <>
         <Container className='container'>
         <h1>Movies</h1>
-
+        <Link variant="success" to={"create-movie"} >Create Movie</Link>
         { loading && <Loading/>}
         <Row>
         { 

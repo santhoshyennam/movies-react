@@ -37,12 +37,25 @@ const useMovieInfo = () => {
         },2000)
     }
 
+    const updateMovie = () => {
+        setLoading(true)
+        axios.put("http://localhost:3200/movies/"+movie.id, movie)
+        .then(res=> {
+            window.alert('Movie updated Successfully')
+        }).catch(err=> setError(err.message))
+        .finally(()=> {
+            setLoading(false)
+        })
+    }
+
     return {
         movie,
         loading,
         error,
         getMovie,
-        deleteMovie
+        deleteMovie,
+        setMovie,
+        updateMovie
     }
 
 }

@@ -1,0 +1,7 @@
+.mybutton {
+    opacity: 0.5;
+}
+
+.mybutton:hover {
+    opacity: 1;
+}

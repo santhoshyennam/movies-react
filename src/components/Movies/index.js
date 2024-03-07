@@ -18,8 +18,6 @@ const Movies = () => {
             getData()
         },1000)
     },[])
-
-    
     return (
         <>
         <Container className='container'>

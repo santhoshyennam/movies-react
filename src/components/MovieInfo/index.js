@@ -3,7 +3,9 @@ import useMovieInfo from "./hook";
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
 import Error from "../Error";
-import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import {Container} from "react-bootstrap";
+import MovieContent from "../MovieContent";
+import MovieEditModal from "../MovieEditModal";
 
 const MovieInfo = () => {
   let { id } = useParams();
@@ -26,6 +28,14 @@ const MovieInfo = () => {
     language_id: 1,
   };
 
+  const enableShowEditModal = () => {
+    setShowEditModal(true)
+  }
+
+  const disableShowEditModal = () => {
+    setShowEditModal(false)
+  }
+
   useEffect(() => {
     getMovie(id);
   }, []);
@@ -34,100 +44,13 @@ const MovieInfo = () => {
     if (movie != null) console.log(movie);
   }, [movie]);
 
-  const getContent = () => {
-    if (movie != null) {
-      return (
-      <div>
-      <p> {movie.title}</p>
-      <p> {movie.description}</p>
-      <p> {movie.duration}</p>
-      </div>)
-    } else {
-      <></>;
-    }
-  };
-
   return (
     <Container>
       {loading && <Loading />}
-      {getContent()}
-      {movie != null && (
-        <Row>
-          <Col lg={1}>
-            <Button
-              className="danger"
-              onClick={() => {
-                setShowEditModal(true);
-              }}
-            >
-              Edit
-            </Button>
-          </Col>
-          <Col lg={1}>
-            <Button className="danger" onClick={deleteMovie}>
-              Delete
-            </Button>
-          </Col>
-        </Row>
-      )}
+      <MovieContent movie={movie} handleEdit={enableShowEditModal} />
       {error != null && <Error message={error} />}
-
-      {showEditModal && (
-        <Modal
-          size="lg"
-          show={true}
-          onHide={() => {}}
-          aria-labelledby="example-modal-sizes-title-lg"
-        >
-          <Modal.Header>
-            <Modal.Title id="example-modal-sizes-title-lg">
-              Edit Movie
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Row className="mb-4">
-              <Form.Control size="lg" type="text" placeholder="Title" value={movie.title} onChange={(e)=> {
-                const newMovie = {...movie};
-                newMovie.title = e.target.value
-                setMovie(newMovie)
-              }} />
-            </Row>
-
-            <Row className="mb-4">
-              <Form.Control size="lg" type="text" placeholder="Duration" value={movie.duration} onChange={(e)=> {
-                const newMovie = {...movie};
-                newMovie.duration = e.target.value
-                setMovie(newMovie)
-              }} />
-            </Row>
-
-            <Row className="mb-4">
-              <Form.Control as="textarea" rows={3} value={movie.description} onChange={(e)=>{
-                const newMovie = {...movie};
-                newMovie.description = e.target.value
-                setMovie(newMovie)
-              }} />
-            </Row>
-            <Row>
-              <Col lg={2}>
-                <Button variant="success" onClick={updateMovie}>Update</Button>
-              </Col>
-              <Col lg={2}>
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    setShowEditModal(false);
-                  }}
-                >
-                  Cancel
-                </Button>
-              </Col>
-            </Row>
-          </Modal.Body>
-        </Modal>
-      )}
+      {showEditModal && <MovieEditModal movie={movie} setMovie={setMovie} handleUpdate={updateMovie} handleCancel={disableShowEditModal} />}
     </Container>
   );
 };
-
 export default MovieInfo;

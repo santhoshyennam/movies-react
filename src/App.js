@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MovieInfo from './components/MovieInfo';
 import CreateMovie from './components/CreateMovie';
 
+
 function App() {
 
   return (
